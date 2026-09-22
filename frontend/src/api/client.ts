@@ -25,7 +25,7 @@ import {
   WithdrawalRequest
 } from '../types.ts';
 
-const BASE_URL = '/api';
+const BASE_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api';
 
 async function fetchJson<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const token = localStorage.getItem('brix_token') || 'token_demo';
