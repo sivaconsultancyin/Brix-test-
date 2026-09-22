@@ -433,30 +433,6 @@ export const supabaseRepo = {
       return data;
     }
     throw new Error('Supabase is not configured');
-
-    const wallet = await this.getWallet(userId);
-    wallet.balance += amount;
-    dbStore.wallets.set(userId, wallet);
-
-    const tx: Transaction = {
-      id: `tx_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-      userId,
-      type,
-      amount,
-      status: 'success',
-      gameId: gameId as any,
-      description,
-      referenceId: `REF-${Math.floor(100000 + Math.random() * 900000)}`,
-      idempotencyKey,
-      createdAt: new Date().toISOString()
-    };
-    dbStore.transactions.unshift(tx);
-
-    const result = { success: true, wallet, transaction: tx };
-    if (idempotencyKey) {
-      dbStore.idempotency.set(idempotencyKey, result);
-    }
-    return result;
   },
 
   // COIN RECHARGE
